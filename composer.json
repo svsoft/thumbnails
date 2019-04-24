@@ -1,0 +1,25 @@
+{
+  "name": "svsoft/thumbnails",
+  "description": "php component for resizing image and creating thumbnails",
+  "type": "php-lib",
+  "keywords": ["php","extension","component"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Viktor Shiryakov",
+      "email": "shiryakovv@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "imagine/imagine": "*"
+  },
+  "extra": {
+
+  },
+  "autoload": {
+    "psr-4": {
+        "svsoft\\thumbnails\\": "src"
+    }
+  }
+}
