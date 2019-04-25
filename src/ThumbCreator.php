@@ -2,6 +2,8 @@
 
 namespace svsoft\thumbnails;
 
+use svsoft\thumbnails\exceptions\FileNotFoundException;
+use svsoft\thumbnails\exceptions\UnableOpenImageException;
 
 /**
  * Class ThumbCreator
@@ -32,12 +34,14 @@ class ThumbCreator implements ThumbCreatorInterface
      * @param ThumbInterface $thumb
      *
      * @return string
+     * @throws FileNotFoundException
+     * @throws UnableOpenImageException
      */
     function create($imageUri, ThumbInterface $thumb) : string
     {
         $thumbUri = $thumb->getUri($imageUri);
 
-        if (1 || !$this->thumbStorage->exists($thumbUri))
+        if (!$this->thumbStorage->exists($thumbUri))
         {
             $image = $this->imageStorage->open($imageUri);
 
@@ -45,6 +49,19 @@ class ThumbCreator implements ThumbCreatorInterface
 
             $this->thumbStorage->save($image, $thumbUri);
         }
+
+        return $this->thumbStorage->getUrl($thumbUri);
+    }
+
+    /**
+     * @param string $imageUri
+     * @param ThumbInterface $thumb
+     *
+     * @return string
+     */
+    function getUrl(string $imageUri, ThumbInterface $thumb): string
+    {
+        $thumbUri = $thumb->getUri($imageUri);
 
         return $this->thumbStorage->getUrl($thumbUri);
     }

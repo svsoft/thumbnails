@@ -28,8 +28,14 @@ class ResizeHandler extends AbstractHandler implements ResizeHandlerInterface
 
     function __construct($width, $height)
     {
-        $this->width = $width;
-        $this->height = $height;
+        $this->width = (int)$width;
+        $this->height = (int)$height;
+
+        if (!$this->width)
+            throw new \InvalidArgumentException('Argument width must be set');
+
+        if (!$this->height)
+            throw new \InvalidArgumentException('Argument width must be set');
     }
 
     function handle(ImageInterface $image) : ImageInterface

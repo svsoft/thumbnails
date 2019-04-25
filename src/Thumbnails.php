@@ -2,6 +2,9 @@
 
 namespace svsoft\thumbnails;
 
+use svsoft\thumbnails\exceptions\FileNotFoundException;
+use svsoft\thumbnails\exceptions\UnableOpenImageException;
+
 /**
  * Class ImageThumb
  * @package svsoft\thumbnails
@@ -34,9 +37,22 @@ class Thumbnails implements ThumbnailsInterface
 
     function thumb(string $imageUri, string $thumbId) : string
     {
-        $thumb = $this->manager->getThumb($thumbId);
+        $thumb = $this->getManager()->getThumb($thumbId);
 
-        return $this->creator->create($imageUri, $thumb);
+        try
+        {
+            $url = $this->getCreator()->create($imageUri, $thumb);
+        }
+        catch(FileNotFoundException $exception)
+        {
+            $url = $this->getCreator()->getUrl($imageUri, $thumb);
+        }
+        catch(UnableOpenImageException $exception)
+        {
+            $url = $this->getCreator()->getUrl($imageUri, $thumb);
+        }
+
+        return $url;
     }
 
     /**

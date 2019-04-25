@@ -24,6 +24,8 @@ class ImageLocalStorage implements ImageStorageInterface
      * @param $path
      *
      * @return ImageInterface
+     * @throws FileNotFoundException
+     * @throws UnableOpenImageException
      */
     function open($path)
     {
