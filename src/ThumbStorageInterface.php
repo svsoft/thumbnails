@@ -17,7 +17,7 @@ interface ThumbStorageInterface
      *
      * @return mixed
      */
-    function save(ImageInterface $image, $uri) : void;
+    function save(ImageInterface $image, $uri);
 
     /**
      * @param $uri - идентификатор файла, относительный путь

@@ -19,7 +19,7 @@ class ThumbManager implements ThumbManagerInterface
     /**
      * @param ThumbInterface[] $thumbs
      */
-    function setThumbs(array $thumbs) : void
+    function setThumbs(array $thumbs)
     {
         $this->thumbs = $thumbs;
     }

@@ -14,7 +14,7 @@ interface ThumbManagerInterface
     /**
      * @param ThumbInterface[] $thumbs
      */
-    function setThumbs(array $thumbs) : void ;
+    function setThumbs(array $thumbs) ;
 
     /**
      * @param $key

@@ -54,7 +54,7 @@ class ThumbLocalStorage implements ThumbStorageInterface
      * @param ImageInterface $image
      * @param string $uri - идентификатор файла, относительный путь
      */
-    function save(ImageInterface $image, $uri) : void
+    function save(ImageInterface $image, $uri)
     {
         $dirPath = dirname($this->getFilePath($uri));
 
