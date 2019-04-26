@@ -6,7 +6,7 @@ use svsoft\thumbnails\exceptions\FileNotFoundException;
 use svsoft\thumbnails\exceptions\UnableOpenImageException;
 
 /**
- * Class ImageThumb
+ * Class Thumbnails
  * @package svsoft\thumbnails
  *
  * @author Shiryakov Viktor <shiryakovv@gmail.com>
@@ -24,7 +24,7 @@ class Thumbnails implements ThumbnailsInterface
     private $creator;
 
     /**
-     * ImageThumb constructor.
+     * Thumbnails constructor.
      *
      * @param ThumbManager $manager
      * @param ThumbCreator $creator
