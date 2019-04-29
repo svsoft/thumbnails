@@ -35,7 +35,7 @@ class ResizeCropHandler extends AbstractHandler implements ResizeHandlerInterfac
         return ['width','height','mode'];
     }
 
-    function __construct($width, $height, $mode = 'begin')
+    function __construct($width, $height, $mode = self::MODE_CENTER)
     {
         $this->width = $width;
         $this->height = $height;
