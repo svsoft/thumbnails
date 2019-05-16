@@ -1,105 +1,107 @@
 thumbnails
 ===================
 
-Компонет для ресайза картинок на php. Создает миниатюры картинок с различными обработчиками: ресайз, кроп, заливка, водяной знак. 
-Также можно создовать свои обработчики, и добовлять их в описание миниатюры.
+Component for resize images on php. Creates thumbnails of pictures with various handlers: resize, crop, fill, watermark.
+You can also create your handlers, and add them to the description of the thumbnail.
 
-* Подерживает разные типы хранилища исходных картинок
-* Подерживает разные типы хранилища для миниатюр
-* Возможность создания своих хранилищ (ftp, БД, http)
-* Простое наложение новых обработчиков на уже описаные миниаюры
-* Возможность создания своих произвольных обработчиков изображений
+### Features:
+* Supports different types of source image storage.
+* Supports various types of thumbnail storage
+* Ability to create your own storage types (ftp, Database, Http)
+* Simple apply of new handlers In the previously described thumbnails
+* Ability to create your own custom image handlers
 
-В библиотеке везде используются интерфейсы, есть возможность переопределить любой класс реализацию. 
+In the library everywhere is used interfaces, you can implementation necessary logic in your classes
 
-Есть также адаптер для фреймоврка YII2 svsoft/yii2-thumbnails
+For those who are developing on YII2 there is an adapter of this library [svsoft/yii2-thumbnails](https://github.com/svsoft/yii2-thumbnails)
 
-Установка
+Installation
 ---
 
-Добавить в composer.json
+### Composer
+add to composer.json
 ```json
 {
-	"require": {
+	"require
   		"svsoft/thumbnails": "*"
 	}
 }
 ```
-Или
-```bash
-    composer require svsoft/thumbnails
-```
+and run ```php composer.phar update```
 
-## Конфигурирование и инициализация компонента
+Or
+ 
+run ```php composer.phar require svsoft/thumbnails ```
 
-Создание компонента с локальным хранилищем исходных картинко, и локальным хранилешем миниатюр
+Configuring and initializing the component
+---
+
+Create component with local source image storage and local thumbnail storage
 ```php
-// Создаем объек локального хранилища картинок
+// Creating local image storage
 $imageStorage = new ImageLocalStorage(); 
 
-// Создаем обьект локального хранилища миниатюр
-// $dirPath - путь до папки на сервере где хранятся файлы миниатюр 
-// $webDirPath - урл до этой же папки 
+// Create local thumbnail storage
+// $dirPath - path to direcrory where storage thambnail files 
+// $webDirPath - public url the same folder
 $thumbStorage = new ThumbLocalStorage($dirPath, $webDirPath); 
 
-// На основе этих хранилищ создаем объект создающий миниатюры
+// Based on these storages we create an object that creates thumbnails.
 $creator = new ThumbCreator($imageStorage, $thumbStorage);
 
-// Создаем менеджер миниатюр и описываем миниатюры
+// Create thumbnail manager, where description thumbnails 
 $thumbManager = new ThumbManager();
 $thumbManager->setThumbs([
     'content' => new Thumb([
-        // Простой ресайз по ширине 1140, и высоте 1140
+        // simple resize 1140x1140
         new Resize(1140, 1140),
     ]),
     
     'favicon' => new Thumb([
-        // Ресайз фиксированого размера с заливкой полей прозрачным
+        // Resize fixed size filled with transparent fields
         new ResizeFillingHandler(40, 40),
     ]),
     
     'productDetail' => new Thumb([
-        // обработчик фиксированого размера с обрезанием по центру
+        // image handler fixed size with crop centered
         new ResizeCropHandler(600, 600),
-        // обработчик наложения водяного знака, с прозрачностью 30%
+        // watermark handler with transparent 30%
         new WatermarkHandler('/var/www/site.ru/....', 30)
     ]),
     
     // ...
 ]);
 
-// Создаем сам компонент который будем вызывать когда нам надо будут создать миниатюру
+// Create component that create thumbnails.
 $thumbnails = new Thumbnails($thumbManager, $creator);
 ```
 
-Также если позволяет инфраструктура приложения можно использовать DI контейнер работать через соответствующии интерфейсы
+Using
+---
 
-## Использование
+How to get the component where it will be used depends on the application and developer. via service locator, singleton, container, etc.
 
-Как получить доступ к компоненту там где он будет использоваться зависит от приложения и разработчика. 
-через сервис локатор, синглтон, контейнер, и т.д. 
-
-Пример вывода для favicon
+Example output favicon
 ```html
     <? /** @var ThumbnailsInterface $thumbnails */ ?>
     <link rel="shortcut icon" href="<?=$thumbnails->thumb('/var/www/site.ru/images/1.jpg', 'favicon') ?>" type="image/png">
 ```
 
-Пример вывода катринки товара
+Example output image of product in tag img 
 ```html
      <? /** @var ThumbnailsInterface $thumbnails */ ?>
      <img src="<?=$thumbnails->thumb('/var/www/site.ru/images/product/product-1.jpg', 'product') ?>">
  ```
  
-Пример создания из объекта реализующие интерфейс ThumbInterface
+An example of creating from an object that implements the interface ThumbInterface
 ```php
     $thumb = new Thumb([
-        // обработчик фиксированого размера с обрезанием по центру
+        // Resize fixed size filled with transparent fields
         new ResizeCropHandler(100, 100),
         ]);
     
      /** @var ThumbnailsInterface $thumbnails */
-     // $url - url миниатюры     
+     // $url - thumbnail url     
      $url = $thumbnails->getCreator()->create('/var/www/site.ru/images/product/product-1.jpg', $thumb);        
  ```
 
