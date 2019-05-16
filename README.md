@@ -22,7 +22,7 @@ Installation
 add to composer.json
 ```json
 {
-	"require
+	"require": {
   		"svsoft/thumbnails": "*"
 	}
 }
